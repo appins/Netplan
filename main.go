@@ -6,6 +6,7 @@ import (
   "log"
   "strings"
   "io"
+  "os"
 )
 
 func main() {
@@ -30,6 +31,30 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
     url_path = "/index.html"
   }
 
-  
+  dat, err := os.Open("public" + url_path)
+  if err != nil {
+    fmt.Println("The user made a request for " + url_path + ", but there was nothing there")
+    io.WriteString(w, "404! Page not found.")
+    return
+  }
+
+  io.Copy(w, dat)
+
+  var contextType string
+  fileExt := strings.Split(url_path, ".")[1]
+
+  switch fileExt {
+  case "css":
+    contextType = "text/css"
+  case "html":
+    contextType = "text/html"
+  case "js":
+    contextType = "application/javascript"
+  default:
+    contextType = "text/plain"
+  }
+
+  w.Header().Add("Context-Type", contextType)
+  io.Copy(w, dat)
 
 }
