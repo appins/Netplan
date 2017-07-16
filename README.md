@@ -5,7 +5,7 @@ also be used like an online journal.
 
 
 To start up the server for testing, go to a terminal and type
-```
+```bash
   make
 ```
 
@@ -16,6 +16,6 @@ To start up the server for production use, change the port in main.go to 80
 ```
 
 Then open a terminal and type
-```
+```bash
   sudo make
 ```

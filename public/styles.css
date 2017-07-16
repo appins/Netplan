@@ -1,0 +1,36 @@
+/* NOTE: Seperate this out into different files for the different view pages */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 30px;
+}
+
+.halfvert {
+  height: 50vh;
+}
+
+.darkblue, .darkblue a {
+  background-color: #283256;
+  color: #EBECF0;
+}
+
+.lightblue, .lightblue a {
+  background-color: #EBECF0;
+  color: #283256;
+}
+
+p, h4, h1 {
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  font-size: 10vw;
+}
+
+.fullvert {
+  height: 100vh;
+}

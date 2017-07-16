@@ -33,28 +33,26 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
   dat, err := os.Open("public" + url_path)
   if err != nil {
-    fmt.Println("The user made a request for " + url_path + ", but there was nothing there")
+    fmt.Println("The user made a request for " + url_path + ", but there was nothing there!")
     io.WriteString(w, "404! Page not found.")
     return
   }
 
-  io.Copy(w, dat)
-
-  var contextType string
+  var contentType string
   fileExt := strings.Split(url_path, ".")[1]
 
   switch fileExt {
   case "css":
-    contextType = "text/css"
+    contentType = "text/css"
   case "html":
-    contextType = "text/html"
+    contentType = "text/html"
   case "js":
-    contextType = "application/javascript"
+    contentType = "application/javascript"
   default:
-    contextType = "text/plain"
+    contentType = "text/plain"
   }
 
-  w.Header().Add("Context-Type", contextType)
+  w.Header().Add("Content-Type", contentType)
   io.Copy(w, dat)
 
 }
