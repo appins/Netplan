@@ -24,7 +24,7 @@ func getRandom() string {
   vows := []string {"a", "e", "i", "o", "ee"}
   cons := []string {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p",
   "r", "s", "t", "v", "w", "x", "ch"}
-  nums := []string {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+  nums := []string {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "."}
 
   build := ""
 
