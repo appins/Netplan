@@ -16,6 +16,8 @@ func main() {
   fmt.Println("Starting server on port " + PORT)
 
   http.HandleFunc("/", handleRoot)
+  http.HandleFunc("/makenew.js", handleNew)
+  http.HandleFunc("/journal", handleJournal)
   log.Fatal(http.ListenAndServe(":" + PORT, nil))
 }
 
@@ -54,5 +56,19 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
   w.Header().Add("Content-Type", contentType)
   io.Copy(w, dat)
+}
+
+func handleNew(w http.ResponseWriter, r *http.Request) {
+  defer r.Body.Close()
+
+  userid := getRandom()
+  jsfile := "var userid = \"" + userid + "\";"
+
+  io.WriteString(w, jsfile)
+
+  w.Header().Add("Content-Type", "applictaion/javascript")
+}
+
+func handleJournal(w http.ResponseWriter, r *http.Request) {
 
 }
