@@ -78,8 +78,6 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
     reqCount[ip]++
   }
 
-  fmt.Println(reqCount[ip])
-
   userid := getRandom()
   os.MkdirAll("./entries/" + userid, 0777)
   jsfile := "var userid = \"" + userid + "\";"
