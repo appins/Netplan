@@ -17,7 +17,7 @@ func main() {
 
   http.HandleFunc("/", handleRoot)
   http.HandleFunc("/makenew.js", handleNew)
-  http.HandleFunc("/journal", handleJournal)
+  http.HandleFunc("/journal/", handleJournal)
   log.Fatal(http.ListenAndServe(":" + PORT, nil))
 }
 
@@ -62,6 +62,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
   defer r.Body.Close()
 
   userid := getRandom()
+  os.MkdirAll("./entries/" + userid, 0777)
   jsfile := "var userid = \"" + userid + "\";"
 
   io.WriteString(w, jsfile)
@@ -70,5 +71,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleJournal(w http.ResponseWriter, r *http.Request) {
+  defer r.Body.Close()
+
 
 }
