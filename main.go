@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "net"
   "net/http"
   "log"
   "strings"
@@ -9,7 +10,12 @@ import (
   "os"
 )
 
+var reqCount map[string]int
+
 func main() {
+  reqCount = make(map[string]int)
+  reqCount["10.0.0.188"] = -1
+
   // NOTE: This should be 80 for production use
   PORT := "8080"
 
@@ -35,7 +41,8 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
   dat, err := os.Open("public" + url_path)
   if err != nil {
-    fmt.Println("The user made a request for " + url_path + ", but there was nothing there!")
+    ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+    fmt.Println("The user (" + ip + ") made a request for " + url_path + ", but there was nothing there!")
     io.WriteString(w, "404! Page not found.")
     return
   }
@@ -60,6 +67,18 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
 func handleNew(w http.ResponseWriter, r *http.Request) {
   defer r.Body.Close()
+
+  ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+  if reqCount[ip] > 100 {
+    io.WriteString(w, "var userid = \"This ip has created too many id's!\"")
+    fmt.Println("A user (" + ip + ") has created over 100 id's")
+    return
+  }
+  if reqCount[ip] >= 0 {
+    reqCount[ip]++
+  }
+
+  fmt.Println(reqCount[ip])
 
   userid := getRandom()
   os.MkdirAll("./entries/" + userid, 0777)

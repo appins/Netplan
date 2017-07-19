@@ -10,5 +10,5 @@ function setlink() {
   setTimeout(function() {
     linkoutput.href = "/journal/" + idinput.value;
     setlink();
-  });
+  }, 50);
 }
