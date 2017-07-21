@@ -10,10 +10,13 @@ import (
   "os"
 )
 
+// Create a map for counting the amount of requests
 var reqCount map[string]int
 
 func main() {
   reqCount = make(map[string]int)
+
+  // NOTE: This should be changed to your ip when testing so you don't reach the limit
   reqCount["10.0.0.188"] = -1
 
   // NOTE: This should be 80 for production use
@@ -74,6 +77,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
     fmt.Println("A user (" + ip + ") has created over 100 id's")
     return
   }
+  // Notice that if the int is under zero, than we don't increment it
   if reqCount[ip] >= 0 {
     reqCount[ip]++
   }

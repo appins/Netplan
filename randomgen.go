@@ -23,8 +23,8 @@ func randFromArr(arr []string) string {
 func getRandom() string {
   vows := []string {"a", "e", "i", "o", "ee", "ea", "oo", "y", "ai", ""}
   cons := []string {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p",
-  "r", "s", "t", "v", "w", "x", "ch", "ll", "sh", "sh", "th", "kn", "wh", ""}
-  nums := []string {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", ""}
+  "r", "s", "t", "v", "w", "x", "ch", "ll", "sh", "th", "kn", "wh", ""}
+  nums := []string {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", ""}
 
   build := ""
 
