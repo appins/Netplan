@@ -23,3 +23,12 @@ Then open a terminal and type
   # Or
   sudo go run *.go
 ```
+
+To reset the entries in the folder, use the `reset` target in the makefile,
+like this
+```bash
+  # You should be able to run this as a user and not need to use root
+  make reset
+```
+
+Found a bug? Email me at AlexAndersonOne@gmail.com
