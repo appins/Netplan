@@ -5,5 +5,5 @@ window.onload = function() {
   a = document.getElementById("a");
 
   h1.innerHTML = "Your id is <br>" + userid;
-  a.href = "/journal/" + userid;
+  a.href = "/journal/" + userid + "/";
 };

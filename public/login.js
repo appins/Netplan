@@ -8,7 +8,7 @@ window.onload = function() {
 
 function setlink() {
   setTimeout(function() {
-    linkoutput.href = "/journal/" + idinput.value;
+    linkoutput.href = "/journal/" + idinput.value + "/";
     setlink();
-  }, 50);
+  }, 16);
 }
