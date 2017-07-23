@@ -13,6 +13,18 @@ import (
 // Create a map for counting the amount of requests
 var reqCount map[string]int
 
+// Function for checking if file or folder exists
+func pathExists(path string) bool {
+  _, err := os.Stat(path)
+  if err == nil {
+    return true
+  }
+  if os.IsNotExist(err) {
+    return false
+  }
+  return true
+}
+
 func main() {
   reqCount = make(map[string]int)
 
@@ -77,12 +89,22 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
     fmt.Println("A user (" + ip + ") has created over 100 id's")
     return
   }
+
   // Notice that if the int is under zero, than we don't increment it
   if reqCount[ip] >= 0 {
     reqCount[ip]++
   }
 
+  // Create a random username and check if it exists
   userid := getRandom()
+  for i := 0; pathExists("./entries/" + userid); i++ {
+    userid = getRandom()
+    if i > 100 {
+      fmt.Println("After 100 tries, we couldn't fint an ID for " + ip)
+      return
+    }
+  }
+
   os.MkdirAll("./entries/" + userid, 0777)
   jsfile := "var userid = \"" + userid + "\";"
 
