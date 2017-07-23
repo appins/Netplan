@@ -123,7 +123,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     dat, err := os.Open("./public/notfound.html")
     if err != nil {
       fmt.Println("public/notfound.html is missing!")
-      io.WriteString(w, "The journal you are looking for was not found")
+      io.WriteString(w, "The journal you are looking for was not found.")
       return
     }
     io.Copy(w, dat)
