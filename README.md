@@ -11,6 +11,8 @@ To start up the server for testing, go to a terminal and type
   go run *.go
 ```
 
+Then go to http://localhost:8080 in a browser
+
 To start up the server for production use, change the port in main.go to 80
 ```go
   // NOTE: This should be 80 for production use
@@ -23,6 +25,8 @@ Then open a terminal and type
   # Or
   sudo go run *.go
 ```
+
+Then go to http://localhost in a browser
 
 To reset the entries in the folder, use the `reset` target in the makefile,
 like this
