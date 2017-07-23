@@ -2,4 +2,4 @@ all:
 	go run *.go
 
 reset:
-	rm -rf entries
+	sh ./deleteentries.sh
