@@ -98,11 +98,13 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
   // Create a random username and check if it exists
   userid := getRandom()
   for i := 0; pathExists("./entries/" + userid); i++ {
-    userid = getRandom()
     if i > 100 {
       fmt.Println("After 100 tries, we couldn't fint an ID for " + ip)
+      fmt.Println("Please reset the entires folder or make the random function better")
+      // IDEA: Send the user a script that will alert them about the issue
       return
     }
+    userid = getRandom()
   }
 
   os.MkdirAll("./entries/" + userid, 0777)
@@ -116,5 +118,14 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
 func handleJournal(w http.ResponseWriter, r *http.Request) {
   defer r.Body.Close()
 
-
+  path := strings.Split(r.URL.Path, "/")[2]
+  if !pathExists("./entries/" + path) {
+    dat, err := os.Open("./public/notfound.html")
+    if err != nil {
+      fmt.Println("public/notfound.html is missing!")
+      io.WriteString(w, "The journal you are looking for was not found")
+      return
+    }
+    io.Copy(w, dat)
+  }
 }
