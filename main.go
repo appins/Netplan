@@ -54,6 +54,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
     url_path = "/index.html"
   }
 
+  // TODO: Send a 404 header and create a custom page in public
   dat, err := os.Open("public" + url_path)
   if err != nil {
     ip, _, _ := net.SplitHostPort(r.RemoteAddr)
@@ -110,13 +111,16 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
   os.MkdirAll("./entries/" + userid, 0777)
   jsfile := "var userid = \"" + userid + "\";"
 
-  io.WriteString(w, jsfile)
-
   w.Header().Add("Content-Type", "applictaion/javascript")
+  io.WriteString(w, jsfile)
 }
 
 func handleJournal(w http.ResponseWriter, r *http.Request) {
   defer r.Body.Close()
+
+  if strings.Contains(r.URL.Path, "..") {
+    io.WriteString(w, "404! Page not found.")
+  }
 
   path := strings.Split(r.URL.Path, "/")[2]
   if !pathExists("./entries/" + path) {
@@ -126,6 +130,26 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       io.WriteString(w, "The journal you are looking for was not found.")
       return
     }
+    w.Header().Add("Content-Type", "text/html")
     io.Copy(w, dat)
+    return
   }
+
+  journal_url := strings.Split(r.URL.Path, "/")[3]
+
+  if journal_url == "" {
+    journal_url = "index.html"
+  }
+
+  // The handler when an entry is called
+  if journal_url == "entry" {
+    return
+  }
+
+  dat, err := os.Open("./journal_static/" + journal_url)
+  if err != nil {
+    io.WriteString(w, "404! Page not found.")
+  }
+
+  io.Copy(w, dat)
 }
