@@ -4,11 +4,21 @@
     <meta charset="utf-8">
     <title>Journal</title>
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="./jorun.css">
+    <link rel="stylesheet" href="./journ.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src="./main.js" charset="utf-8"></script>
   </head>
   <body>
-    <div class="lightblue fullvert">
-      
+    <div class="vertbig darkblue hasinside">
+      <div class="insidevert lightblue">
+        <br>
+        <h2>Journal entry <span id="entrynum"></span></h2>
+        <br>
+        <br>
+        <p contenteditable="true" id="journal">Edit here.</p>
+      </div>
     </div>
+    <p id="lastpage" class="lightblue">Last page</p>
+    <p id="nextpage" class="lightblue">Next page</p>
   </body>
 </html>

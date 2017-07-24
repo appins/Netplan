@@ -151,5 +151,21 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "404! Page not found.")
   }
 
+  var contentType string
+  fileExt := strings.Split(journal_url, ".")[1]
+
+  switch fileExt {
+  case "css":
+    contentType = "text/css"
+  case "html":
+    contentType = "text/html"
+  case "js":
+    contentType = "application/javascript"
+  default:
+    contentType = "text/plain"
+  }
+
+  w.Header().Add("Content-Type", contentType)
+
   io.Copy(w, dat)
 }
