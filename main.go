@@ -8,6 +8,7 @@ import (
   "strings"
   "io"
   "os"
+  "strconv"
 )
 
 // Create a map for counting the amount of requests
@@ -141,9 +142,32 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     journal_url = "index.html"
   }
 
-  // The handler when an entry is called
-  if journal_url == "entry" {
-    return
+  // The handler when an entry is requested or written too
+  if journal_url == "entry" || journal_url == "entryedit" {
+    entNum := strings.Split(r.URL.Path + "/", "/")[4]
+    entryNum, err := strconv.Atoi(entNum)
+    if err != nil || entryNum > 10000 {
+      io.WriteString(w, "Journal entry number is invalid.")
+      return
+    }
+
+    entryExists := pathExists("./entries/" + path + "/" + entNum + ".ent")
+
+    if entryExists && journal_url == "entry" {
+      dat, err := os.Open("./entries/" + path + "/" + entNum + ".ent")
+      if err != nil {
+        io.WriteString(w, "ERROR!")
+        fmt.Println("Couldn't open a path even though it was supposed to exist")
+        fmt.Println("( path=" + path + ", entNum=" + entNum + ")")
+        return
+      }
+      io.Copy(w, dat)
+      return
+    }
+    if !entryExists {
+
+    }
+
   }
 
   dat, err := os.Open("./journal_static/" + journal_url)
@@ -152,7 +176,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   }
 
   var contentType string
-  fileExt := strings.Split(journal_url, ".")[1]
+  fileExt := strings.Split(journal_url + ".", ".")[1]
 
   switch fileExt {
   case "css":
