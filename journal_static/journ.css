@@ -39,8 +39,8 @@ h2 {
   bottom: 0;
   position: absolute;
   left: 0;
-  margin-left: 3vw;
-  margin-bottom: 5vh;
+  margin-left: 1vw;
+  margin-bottom: 2vh;
   font-size: 2vh;
 }
 
@@ -48,7 +48,7 @@ h2 {
   bottom: 0;
   position: absolute;
   right: 0;
-  margin-right: 3vw;
-  margin-bottom: 5vh;
+  margin-right: 1vw;
+  margin-bottom: 2vh;
   font-size: 2vh;
 }
