@@ -153,20 +153,27 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
 
     entryExists := pathExists("./entries/" + path + "/" + entNum + ".ent")
 
-    if entryExists && journal_url == "entry" {
+    if !entryExists {
+      fil, err := os.Create("./entries/" + path + "/" + entNum + ".ent")
+      if err != nil {
+        fmt.Println("Couldn't create file!")
+        io.WriteString(w, "Error! Couldn't create journal entry")
+        return
+      }
+      fil.Write([]byte("New planner entry"))
+    }
+    if journal_url == "entry" {
       dat, err := os.Open("./entries/" + path + "/" + entNum + ".ent")
       if err != nil {
         io.WriteString(w, "ERROR!")
-        fmt.Println("Couldn't open a path even though it was supposed to exist")
-        fmt.Println("( path=" + path + ", entNum=" + entNum + ")")
+        fmt.Println("Couldn't open file for reading (Entry handler)")
+        fmt.Println("( path=" + path + ", entNum=" + entNum + " )")
         return
       }
       io.Copy(w, dat)
       return
     }
-    if !entryExists {
 
-    }
 
   }
 
