@@ -123,7 +123,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "404! Page not found.")
   }
 
-  path := strings.Split(r.URL.Path, "/")[2]
+  path := strings.ToLower(strings.Split(r.URL.Path, "/")[2])
   if !pathExists("./entries/" + path) {
     dat, err := os.Open("./public/notfound.html")
     if err != nil {
