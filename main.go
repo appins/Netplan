@@ -7,6 +7,7 @@ import (
   "log"
   "strings"
   "io"
+  "io/ioutil"
   "os"
   "strconv"
 )
@@ -146,7 +147,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   if journal_url == "entry" || journal_url == "entryedit" {
     entNum := strings.Split(r.URL.Path + "/", "/")[4]
     entryNum, err := strconv.Atoi(entNum)
-    if err != nil || entryNum > 10000 {
+    if err != nil || entryNum > 10000 || entryNum < 1 {
       io.WriteString(w, "Journal entry number is invalid.")
       return
     }
@@ -160,21 +161,36 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
         io.WriteString(w, "Error! Couldn't create journal entry")
         return
       }
-      fil.Write([]byte("New planner entry"))
+      fil.Write([]byte("New planner entry."))
     }
     if journal_url == "entry" {
       dat, err := os.Open("./entries/" + path + "/" + entNum + ".ent")
       if err != nil {
         io.WriteString(w, "ERROR!")
-        fmt.Println("Couldn't open file for reading (Entry handler)")
+        fmt.Println("Couldn't open file for reading (Entry handler).")
+        fmt.Println("Please report this issue on the appins/Netplan GitHub")
         fmt.Println("( path=" + path + ", entNum=" + entNum + " )")
         return
       }
       io.Copy(w, dat)
       return
     }
+    if journal_url == "entryedit" {
+      err := ioutil.WriteFile("./entries/" + path + "/" + entNum + ".ent",
+        []byte(r.PostFormValue("text")), 0777)
 
+      if err != nil {
+        fmt.Println("Couldn't write to file when entryedit was requested")
+        return
+      }
 
+      return
+    }
+
+    // NOTE: I don't think you can get to this point, but I might be wrong
+    fmt.Println("Reached the end of entry handler without returning (???)")
+    io.WriteString(w, "Error!")
+    return
   }
 
   dat, err := os.Open("./journal_static/" + journal_url)
