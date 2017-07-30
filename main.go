@@ -163,7 +163,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       }
       entrytext := []byte("New planner entry.")
       if entNum == "1" {
-        entrytext = []byte("Welcome to Netplan! Currently, this is a simple planner with very few advanced features. <br><br><br>To start using, just delete this text and start writing.")
+        entrytext = []byte("Welcome to Netplan! Currently, this is a simple planner with very few advanced features. <br><br><br>To start using, just delete this text and start writing. <br><br><br> If you have any issues, please email me at alexandersonone@gmail.com.")
       }
       fil.Write(entrytext)
     }
