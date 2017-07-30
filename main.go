@@ -161,7 +161,11 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
         io.WriteString(w, "Error! Couldn't create journal entry")
         return
       }
-      fil.Write([]byte("New planner entry."))
+      entrytext := []byte("New planner entry.")
+      if entNum == "1" {
+        entrytext = []byte("Welcome to Netplan! Currently, this is a simple planner with very few advanced features. <br><br><br>To start using, just delete this text and start writing.")
+      }
+      fil.Write(entrytext)
     }
     if journal_url == "entry" {
       dat, err := os.Open("./entries/" + path + "/" + entNum + ".ent")
@@ -176,6 +180,11 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       return
     }
     if journal_url == "entryedit" {
+      if len(r.PostFormValue("text")) > 5000 {
+        io.WriteString(w, "Size of journal is too large!")
+        return
+      }
+
       err := ioutil.WriteFile("./entries/" + path + "/" + entNum + ".ent",
         []byte(r.PostFormValue("text")), 0777)
 
