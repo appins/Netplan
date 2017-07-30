@@ -1,5 +1,4 @@
 var journalNumber, journalText;
-var reqNumber = 1;
 
 window.onload = function() {
   var nextButton = document.getElementById("lastpage");
@@ -11,7 +10,7 @@ window.onload = function() {
   journalText = document.getElementById("journal");
 
   journalNumber.innerHTML = reqNumber;
-  loadContent(1);
+  loadContent(reqNumber);
 
   sendContent();
 };

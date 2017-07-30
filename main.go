@@ -15,6 +15,9 @@ import (
 // Create a map for counting the amount of requests
 var reqCount map[string]int
 
+// Create a map for storing the last journal entry a user requested
+var lastEntryNum map[string]string
+
 // Function for checking if file or folder exists
 func pathExists(path string) bool {
   _, err := os.Stat(path)
@@ -29,6 +32,7 @@ func pathExists(path string) bool {
 
 func main() {
   reqCount = make(map[string]int)
+  lastEntryNum = make(map[string]string)
 
   // NOTE: This should be changed to your ip when testing so you don't reach the limit
   reqCount["10.0.0.188"] = -1
@@ -110,6 +114,8 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
     userid = getRandom()
   }
 
+  lastEntryNum[userid] = "1";
+
   os.MkdirAll("./entries/" + userid, 0777)
   jsfile := "var userid = \"" + userid + "\";"
 
@@ -145,6 +151,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
 
   // The handler when an entry is requested or written too
   if journal_url == "entry" || journal_url == "entryedit" {
+    // Add another '/' at the end so that we don't get index errors (as often)
     entNum := strings.Split(r.URL.Path + "/", "/")[4]
     entryNum, err := strconv.Atoi(entNum)
     if err != nil || entryNum > 10000 || entryNum < 1 {
@@ -176,6 +183,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
         fmt.Println("( path=" + path + ", entNum=" + entNum + " )")
         return
       }
+      lastEntryNum[path] = entNum
       io.Copy(w, dat)
       return
     }
@@ -199,6 +207,15 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     // NOTE: I don't think you can get to this point, but I might be wrong
     fmt.Println("Reached the end of entry handler without returning (???)")
     io.WriteString(w, "Error!")
+    return
+  }
+
+  if journal_url == "last.js" {
+    reqInt,err := strconv.Atoi(lastEntryNum[path])
+    if err != nil || reqInt < 1 || reqInt > 10000 {
+      lastEntryNum[path] = "1"
+    }
+    io.WriteString(w, "var reqNumber = " + lastEntryNum[path] + ";")
     return
   }
 
