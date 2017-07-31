@@ -38,7 +38,7 @@ func main() {
   reqCount["10.0.0.188"] = -1
 
   // NOTE: This should be 80 for production use
-  PORT := "8080"
+  PORT := "80"
 
   fmt.Println("Starting server on port " + PORT)
 
