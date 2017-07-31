@@ -31,7 +31,7 @@ Then go to http://localhost in a browser
 To reset the entries in the folder, use the `reset` target in the makefile,
 like this
 ```bash
-  # You might need to use sudo if you used sudo make to run the server
+  # You might need to use sudo make reset if you used sudo make to run the server
   make reset
 ```
 
