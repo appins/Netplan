@@ -2,7 +2,6 @@ all:
 	go run *.go
 
 log:
-	$(shell killall go)
 	$(eval TIME := $(shell date +"%a%b%d%y%T"))
 	mkdir -p logs
 	touch logs/$(TIME).log

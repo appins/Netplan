@@ -35,4 +35,11 @@ like this
   make reset
 ```
 
+If you want to log what is going on, use the `log` target, like this:
+```bash
+  make log
+  # OR
+  sudo make log
+```
+
 Found a bug? Email me at AlexAndersonOne@gmail.com
