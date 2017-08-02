@@ -117,6 +117,9 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
   lastEntryNum[userid] = "1";
 
   os.MkdirAll("./entries/" + userid, 0777)
+  fil2, _ := os.Create("./entries/" + userid + "/theme.setting")
+  fil2.Write([]byte("standard.theme"))
+  defer fil2.Close()
   jsfile := "var userid = \"" + userid + "\";"
 
   w.Header().Add("Content-Type", "applictaion/javascript")
@@ -211,11 +214,35 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   }
 
   if journal_url == "last.js" {
-    reqInt,err := strconv.Atoi(lastEntryNum[path])
+    reqInt, err := strconv.Atoi(lastEntryNum[path])
     if err != nil || reqInt < 1 || reqInt > 10000 {
       lastEntryNum[path] = "1"
     }
     io.WriteString(w, "var reqNumber = " + lastEntryNum[path] + ";")
+    return
+  }
+
+  if journal_url == "theme.css" {
+    theme := "normal"
+    dat1, err1 := ioutil.ReadFile("./entries/" + path + "/theme.setting")
+    if err1 != nil {
+      fmt.Println("Couldn't open a users theme.setting path, are they using an old journal?")
+      io.WriteString(w, "/* Error! */")
+    }
+
+    switch string(dat1) {
+    case "dark":
+      theme = "dark"
+    }
+
+    dat, err := os.Open("./themes/" + theme + ".css")
+    if err != nil {
+      io.WriteString(w, "/* Theme file not found */")
+      fmt.Println("A user requested a theme that wasn't avalible")
+      return
+    }
+    w.Header().Add("Content-Type", "text/css")
+    io.Copy(w, dat)
     return
   }
 

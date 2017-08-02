@@ -19,7 +19,7 @@ func randFromArr(arr []string) string {
   return x
 }
 
-// Generate a word type thing
+// Generate an id
 func getRandom() string {
   vows := []string {"a", "e", "i", "o", "ee", "ea", "oo", "y", "ai", ""}
   cons := []string {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p",
