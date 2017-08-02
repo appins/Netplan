@@ -64,7 +64,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
   dat, err := os.Open("public" + url_path)
   if err != nil {
     ip, _, _ := net.SplitHostPort(r.RemoteAddr)
-    fmt.Println("The user (" + ip + ") made a request for " + url_path + ", but there was nothing there!")
+    fmt.Println("A user (" + ip + ") made a request for " + url_path + ", but there was nothing there!")
     io.WriteString(w, "404! Page not found.")
     return
   }
@@ -231,7 +231,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     }
 
     switch string(dat1) {
-    case "dark":
+    case "dark.theme":
       theme = "dark"
     }
 
