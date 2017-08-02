@@ -42,7 +42,8 @@ h2 {
   left: 0;
   margin-left: 1vw;
   margin-bottom: 2vh;
-  font-size: 30px;
+  font-size: 20px;
+  z-index: 4;
 }
 
 #nextpage {
@@ -51,5 +52,18 @@ h2 {
   right: 0;
   margin-right: 1vw;
   margin-bottom: 2vh;
-  font-size: 30px;
+  font-size: 20px;
+  z-index: 4;
+}
+
+.settingslink {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 50vw;
+  margin-left: 25vw;
+  font-size: 20px;
+  margin-bottom: 2vh;
+  z-index: 1;
 }

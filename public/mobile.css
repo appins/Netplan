@@ -23,3 +23,8 @@ h4 {
 .linktext {
   font-size: 3vh;
 }
+
+.uselink {
+  font-size: calc(2vh + 2vw) !important;
+  margin-bottom: calc(5vw + 5vh) !important;
+}
