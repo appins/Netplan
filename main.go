@@ -118,7 +118,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
 
   os.MkdirAll("./entries/" + userid, 0777)
   fil2, _ := os.Create("./entries/" + userid + "/theme.setting")
-  fil2.Write([]byte("standard.theme"))
+  fil2.Write([]byte("normal"))
   defer fil2.Close()
   jsfile := "var userid = \"" + userid + "\";"
 
@@ -231,18 +231,53 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     }
 
     switch string(dat1) {
-    case "dark.theme":
+    case "normal":
+      theme = "normal"
+    case "dark":
       theme = "dark"
+    case "darkblue":
+      theme = "darkblue"
+    case "red":
+      theme = "red"
     }
 
     dat, err := os.Open("./themes/" + theme + ".css")
     if err != nil {
       io.WriteString(w, "/* Theme file not found */")
-      fmt.Println("A user requested a theme that wasn't avalible")
+      fmt.Println("A user requested a theme that wasn't avalible (" + theme + ")")
       return
     }
     w.Header().Add("Content-Type", "text/css")
     io.Copy(w, dat)
+    return
+  }
+
+  // Handle settings being changed (Should happen every time the body is clicked)
+  if journal_url == "settingschange" {
+    theme := r.PostFormValue("theme")
+
+    themefile, themeerr := os.Open("./entries/" + path + "/theme.setting")
+    defer themefile.Close()
+    if themeerr != nil {
+      io.WriteString(w, "Error")
+      fmt.Println("Couldn't open the theme.setting file for the user " + path)
+    }
+
+    switch strings.ToLower(theme) {
+    case "dark":
+      themefile.Write([]byte("dark"))
+    case "darkblue":
+      themefile.Write([]byte("darkblue"))
+    case "red":
+      themefile.Write([]byte("red"))
+    case "normal":
+      themefile.Write([]byte("normal"))
+    default:
+      fmt.Println("A user set a theme that wasn't existing. (" + theme + ")")
+    }
+
+    ioutil.WriteFile("./entries/" + path + "/theme.setting", []byte(theme), 0777)
+    io.WriteString(w, "Settings changed")
     return
   }
 
