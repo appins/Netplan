@@ -9,7 +9,6 @@ log:
 	ln -f logs/$(TIME).log logs/latest.log
 	go run *.go > logs/$(TIME).log&
 	watch -n 1 -d cat logs/latest.log
-	echo "The server is still runnning!!!"
 
 killit:
 	$(shell killall go)
@@ -22,3 +21,6 @@ watch:
 	mkdir -p logs
 	touch logs/latest.log
 	watch -n 1 -d cat logs/latest.log
+
+entfix:
+	chmod 777 -R entries
