@@ -173,7 +173,13 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       }
       entrytext := []byte("New planner entry.")
       if entNum == "1" {
-        entrytext = []byte("Welcome to Netplan! Currently, this is a simple planner with very few advanced features. <br><br><br>To start using, just delete this text and start writing. <br><br><br> If you have any issues, please email me at alexandersonone@gmail.com.")
+        introtext, err := ioutil.ReadFile("./public/introtext.txt")
+        if err != nil {
+          io.WriteString(w, "Error!")
+          fmt.Println("Couldn't read from ./public/introtext.txt")
+          return
+        }
+        entrytext = []byte(introtext)
       }
       fil.Write(entrytext)
     }
@@ -239,6 +245,8 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       theme = "darkblue"
     case "red":
       theme = "red"
+    case "grey":
+      theme = "grey"
     }
 
     dat, err := os.Open("./themes/" + theme + ".css")
@@ -256,27 +264,12 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   if journal_url == "settingschange" {
     theme := r.PostFormValue("theme")
 
-    themefile, themeerr := os.Open("./entries/" + path + "/theme.setting")
-    defer themefile.Close()
-    if themeerr != nil {
+    err := ioutil.WriteFile("./entries/" + path + "/theme.setting", []byte(theme), 0777)
+
+    if err != nil {
       io.WriteString(w, "Error")
       fmt.Println("Couldn't open the theme.setting file for the user " + path)
     }
-
-    switch strings.ToLower(theme) {
-    case "dark":
-      themefile.Write([]byte("dark"))
-    case "darkblue":
-      themefile.Write([]byte("darkblue"))
-    case "red":
-      themefile.Write([]byte("red"))
-    case "normal":
-      themefile.Write([]byte("normal"))
-    default:
-      fmt.Println("A user set a theme that wasn't existing. (" + theme + ")")
-    }
-
-    ioutil.WriteFile("./entries/" + path + "/theme.setting", []byte(theme), 0777)
     io.WriteString(w, "Settings changed")
     return
   }
