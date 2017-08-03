@@ -31,6 +31,8 @@ func getRandom() string {
   build += randFromArr(cons)
   build += randFromArr(vows)
   build += randFromArr(cons)
+  build += randFromArr(vows)
+  build += randFromArr(cons)
   build += randFromArr(nums)
   build += randFromArr(nums)
 
