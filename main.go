@@ -228,6 +228,19 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     return
   }
 
+  if journal_url == "theme.js" {
+    dat, err := ioutil.ReadFile("./entries/" + path + "/theme.setting")
+
+    if err != nil {
+      fmt.Println("A user (" + path + ") has an unaccessable theme.setting file")
+      io.WriteString(w, "var theme = 'normal';")
+      return;
+    }
+
+    io.WriteString(w, "var theme = '" + string(dat) +"';")
+    return
+
+  }
   if journal_url == "theme.css" {
     theme := "normal"
     dat1, err1 := ioutil.ReadFile("./entries/" + path + "/theme.setting")
