@@ -264,6 +264,12 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   if journal_url == "settingschange" {
     theme := r.PostFormValue("theme")
 
+    if len(theme) > 20 {
+      fmt.Println("A user tried setting a theme that was over 20 characters long!")
+      io.WriteString(w, "The theme is invalid!")
+      return
+    }
+
     err := ioutil.WriteFile("./entries/" + path + "/theme.setting", []byte(theme), 0777)
 
     if err != nil {
