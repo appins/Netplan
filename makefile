@@ -20,7 +20,7 @@ reset:
 watch:
 	mkdir -p logs
 	touch logs/latest.log
-	watch -n 1 -d cat logs/latest.log
+	watch -n 10 -d cat logs/latest.log
 
 entfix:
 	chmod 777 -R entries
