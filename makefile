@@ -8,7 +8,7 @@ log:
 	touch logs/latest.log
 	ln -f logs/$(TIME).log logs/latest.log
 	go run *.go > logs/$(TIME).log&
-	watch -n 1 -d cat logs/latest.log
+	watch -n 10 -d cat logs/latest.log
 
 killit:
 	$(shell killall go)
