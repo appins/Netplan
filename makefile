@@ -30,3 +30,6 @@ entfix:
 backup:
 	mkdir -p entires
 	zip -r entries.zip entries
+
+postupdate:
+	unzip entries.zip
