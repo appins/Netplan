@@ -1,7 +1,9 @@
 all:
+	mkdir -p entries
 	go run *.go
 
 log:
+	mkdir -p entires
 	$(eval TIME := $(shell date +"%a%b%d%y%T"))
 	mkdir -p logs
 	touch logs/$(TIME).log
@@ -24,3 +26,7 @@ watch:
 
 entfix:
 	chmod 777 -R entries
+
+backup:
+	mkdir -p entires
+	zip -r entries.zip entries
