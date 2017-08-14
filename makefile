@@ -3,14 +3,14 @@ all:
 	go run *.go
 
 log:
-	mkdir -p entires
+	mkdir -p entries
 	$(eval TIME := $(shell date +"%a%b%d%y%T"))
 	mkdir -p logs
 	touch logs/$(TIME).log
 	touch logs/latest.log
 	ln -f logs/$(TIME).log logs/latest.log
 	go run *.go > logs/$(TIME).log&
-	watch -n 10 -d cat logs/latest.log
+	tail -f logs/latest.log
 
 killit:
 	$(shell killall go)
@@ -28,7 +28,7 @@ entfix:
 	chmod 777 -R entries
 
 backup:
-	mkdir -p entires
+	mkdir -p entries
 	zip -r entries.zip entries
 
 postupdate:
