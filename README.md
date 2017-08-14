@@ -1,7 +1,7 @@
 # Netplan
 
 An online, free planner written in Go for school and other activities. Can
-also be used as an online journal.
+also be used as an online journal or diary.
 
 
 To start up the server for testing, go to a terminal and type

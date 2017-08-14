@@ -49,7 +49,6 @@ function sendContent(){
     if(lastJournal != journalText.innerHTML || num < 5){
       if(lastJournal != journalText.innerHTML){
         num = 0;
-        // 5x redundancy
       }
       var xhttp = new XMLHttpRequest();
       xhttp.open("POST", "entryedit/" + String(reqNumber), true);
