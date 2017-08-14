@@ -1,4 +1,4 @@
-var journalNumber, journalText;
+var journalNumber, journalText, num = 0;
 
 window.onload = function() {
   var nextButton = document.getElementById("lastpage");
@@ -46,12 +46,17 @@ var lastJournal = "";
 
 function sendContent(){
   setTimeout(function(){
-    if(lastJournal != journalText.innerHTML){
+    if(lastJournal != journalText.innerHTML || num < 5){
+      if(lastJournal != journalText.innerHTML){
+        num = 0;
+        // 5x redundancy
+      }
       var xhttp = new XMLHttpRequest();
       xhttp.open("POST", "entryedit/" + String(reqNumber), true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("text=" + journalText.innerHTML);
       lastJournal = journalText.innerHTML;
+      num++;
     }
     sendContent();
   }, 500);
