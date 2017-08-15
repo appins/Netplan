@@ -5,7 +5,7 @@
 
 .vertsmall {
   height: 5vh;
-  font-size: 3vh;
+  font-size: 6vh;
 }
 
 .hasinside {
@@ -63,7 +63,7 @@ h2 {
   text-align: center;
   width: 50vw;
   margin-left: 25vw;
-  font-size: 20px;
+  font-size: 40px;
   margin-bottom: 2vh;
   z-index: 1;
 }
