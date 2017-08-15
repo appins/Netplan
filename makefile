@@ -33,3 +33,6 @@ backup:
 
 postupdate:
 	unzip entries.zip
+
+convert-old:
+	sh ./converttojson.sh
