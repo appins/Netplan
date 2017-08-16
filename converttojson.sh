@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Loop through every folder inside of entries and create a json file for each
 for d in entries/*/; do
   FILE="${d::-1}.json"
   echo -n '{"entries" : [' > $FILE

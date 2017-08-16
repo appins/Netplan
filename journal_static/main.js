@@ -16,7 +16,7 @@ window.onload = function() {
 };
 
 function next() {
-  if(reqNumber >= 10000){
+  if(reqNumber >= 2500){
     return;
   }
   reqNumber++;
@@ -58,5 +58,5 @@ function sendContent(){
       num++;
     }
     sendContent();
-  }, 500);
+  }, 150);
 }

@@ -7,7 +7,6 @@ import (
   "log"
   "strings"
   "io"
-  "io/ioutil"
   "os"
   "strconv"
 )
@@ -116,10 +115,8 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
 
   lastEntryNum[userid] = "1";
 
-  os.MkdirAll("./entries/" + userid, 0777)
-  fil2, _ := os.Create("./entries/" + userid + "/theme.setting")
-  fil2.Write([]byte("normal"))
-  defer fil2.Close()
+  os.MkdirAll("./entries/", 0777)
+  newJournal(userid)
   jsfile := "var userid = \"" + userid + "\";"
 
   w.Header().Add("Content-Type", "applictaion/javascript")
@@ -134,7 +131,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   }
 
   path := strings.ToLower(strings.Split(r.URL.Path, "/")[2])
-  if !pathExists("./entries/" + path) {
+  if !pathExists("./entries/" + path + ".json") {
     dat, err := os.Open("./public/notfound.html")
     if err != nil {
       fmt.Println("public/notfound.html is missing!")
@@ -157,59 +154,29 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     // Add another '/' at the end so that we don't get index errors (as often)
     entNum := strings.Split(r.URL.Path + "/", "/")[4]
     entryNum, err := strconv.Atoi(entNum)
-    if err != nil || entryNum > 10000 || entryNum < 1 {
+    if err != nil || entryNum > 2500 || entryNum < 1 {
       io.WriteString(w, "Journal entry number is invalid.")
       return
     }
 
-    entryExists := pathExists("./entries/" + path + "/" + entNum + ".ent")
-
-    if !entryExists {
-      fil, err := os.Create("./entries/" + path + "/" + entNum + ".ent")
-      if err != nil {
-        fmt.Println("Couldn't create file!")
-        io.WriteString(w, "Error! Couldn't create journal entry")
-        return
-      }
-      entrytext := []byte("New planner entry.")
-      if entNum == "1" {
-        introtext, err := ioutil.ReadFile("./public/introtext.txt")
-        if err != nil {
-          io.WriteString(w, "Error!")
-          fmt.Println("Couldn't read from ./public/introtext.txt")
-          return
-        }
-        entrytext = []byte(introtext)
-      }
-      fil.Write(entrytext)
-    }
     if journal_url == "entry" {
-      dat, err := os.Open("./entries/" + path + "/" + entNum + ".ent")
+      str, err := readJournal(path, entNum)
       if err != nil {
-        io.WriteString(w, "ERROR!")
-        fmt.Println("Couldn't open file for reading (Entry handler).")
-        fmt.Println("Please report this issue on the appins/Netplan GitHub")
-        fmt.Println("( path=" + path + ", entNum=" + entNum + " )")
+        io.WriteString(w, "Couldn't read journal entry.")
         return
       }
-      lastEntryNum[path] = entNum
-      io.Copy(w, dat)
+      io.WriteString(w, str)
       return
     }
     if journal_url == "entryedit" {
-      if len(r.PostFormValue("text")) > 5000 {
-        io.WriteString(w, "Size of journal is too large!")
+      str := r.PostFormValue("text")
+
+      if len(str) > 5000 {
+        io.WriteString(w, "Journal entry is too long!")
         return
       }
 
-      err := ioutil.WriteFile("./entries/" + path + "/" + entNum + ".ent",
-        []byte(r.PostFormValue("text")), 0777)
-
-      if err != nil {
-        fmt.Println("Couldn't write to file when entryedit was requested")
-        return
-      }
-
+      changeJournal(path, entNum, str)
       return
     }
 
@@ -229,12 +196,10 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   }
 
   if journal_url == "theme.js" {
-    dat, err := ioutil.ReadFile("./entries/" + path + "/theme.setting")
+    dat, err := readTheme(path)
 
     if err != nil {
-      fmt.Println("A user (" + path + ") has an unaccessable theme.setting file")
-      io.WriteString(w, "var theme = 'normal';")
-      return;
+      fmt.Println("Couldn't read a users theme")
     }
 
     io.WriteString(w, "var theme = '" + string(dat) +"';")
@@ -242,14 +207,14 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
 
   }
   if journal_url == "theme.css" {
-    theme := "normal"
-    dat1, err1 := ioutil.ReadFile("./entries/" + path + "/theme.setting")
-    if err1 != nil {
-      fmt.Println("Couldn't open a users theme.setting path, are they using an old journal?")
-      io.WriteString(w, "/* Error! */")
+    var theme string
+    thm, err := readTheme(path)
+
+    if err != nil {
+        fmt.Println("Something went wrong while reading the theme")
     }
 
-    switch string(dat1) {
+    switch string(thm) {
     case "normal":
       theme = "normal"
     case "dark":
@@ -260,6 +225,8 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       theme = "red"
     case "grey":
       theme = "grey"
+    default:
+      theme = "normal"
     }
 
     dat, err := os.Open("./themes/" + theme + ".css")
@@ -283,11 +250,12 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       return
     }
 
-    err := ioutil.WriteFile("./entries/" + path + "/theme.setting", []byte(theme), 0777)
+    err := setTheme(path, theme)
 
     if err != nil {
       io.WriteString(w, "Error")
-      fmt.Println("Couldn't open the theme.setting file for the user " + path)
+      fmt.Println("Couldn't change theme for user: " + path)
+      return
     }
     io.WriteString(w, "Settings changed")
     return
