@@ -161,6 +161,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
 
     if journal_url == "entry" {
       str, err := readJournal(path, entNum)
+      lastEntryNum[path] = entNum
       if err != nil {
         io.WriteString(w, "Couldn't read journal entry.")
         return
