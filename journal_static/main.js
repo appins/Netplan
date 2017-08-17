@@ -12,10 +12,23 @@ window.onload = function() {
   journalNumber.innerHTML = reqNumber;
   loadContent(reqNumber);
 
-  sendContent();
+  setTimeout(sendContent, 1000);
 };
 
 function next() {
+  var checkSave = "";
+  while(checkSave != journalText.innerHTML){
+    var xhttp0 = new XMLHttpRequest();
+    xhttp0.open("POST", "entryedit/" + String(num), false);
+    xhttp0.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp0.send("text=" + journalText.innerHTML)
+
+    var xhttp1 = new XMLHttpRequest();
+    xhttp1.open("GET", "entry/" + String(num), false);
+    xhttp1.send();
+    checkSave = xhttp1.responseText;
+    console.log("makin sure");
+  }
   if(reqNumber >= 2500){
     return;
   }
@@ -36,7 +49,8 @@ function last() {
 function loadContent(num) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    journalText.innerHTML = xhttp.responseText;
+    if(xhttp.readyState == 4)
+      journalText.innerHTML = xhttp.responseText;
   };
   xhttp.open("GET", "entry/" + String(num), true);
   xhttp.send();
