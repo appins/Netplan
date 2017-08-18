@@ -36,3 +36,6 @@ postupdate:
 
 convert-old:
 	sh ./converttojson.sh
+
+check:
+	sh ./checkversion.sh
