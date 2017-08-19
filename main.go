@@ -103,7 +103,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
 
   // Create a random username and check if it exists
   userid := getRandom()
-  for i := 0; pathExists("./entries/" + userid); i++ {
+  for i := 0; pathExists("./entries/" + userid + ".json"); i++ {
     if i > 100 {
       fmt.Println("After 100 tries, we couldn't fint an ID for " + ip)
       fmt.Println("Please reset the entires folder or make the random function better")
