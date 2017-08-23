@@ -3,7 +3,7 @@ This is where I plan on dumping ideas. You may add pretty abstract and vague
 ideas here if you wish, but I would prefer people to be somewhat specific.
 
   * Settings:
-    I would like to create a little settings menu with features like changing the theme.
+    Add fonts and font sizes and stuff, create a custom CSS file for each user
   * Custom CSS and JS files.
   * Markdown style syntax of bold and italic text (maybe big text too).
   * Picture support.

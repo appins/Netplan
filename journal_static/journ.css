@@ -34,6 +34,7 @@ h2 {
   margin-left: 5vw;
   margin-right: 5vw;
   height: 50vh;
+  font-family: 'Roboto Slab', serif;
 }
 
 #lastpage {
@@ -74,4 +75,8 @@ small {
 
 .uselink a {
   font-size: 20px;
+}
+
+p, a {
+  font-family: 'Roboto Slab', serif;
 }

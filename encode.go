@@ -11,11 +11,12 @@ import (
 // This is the format of a journal currently
 type Journal struct {
   Entries []string
+  Titles []string
   Theme string
 }
 
-// This is used to change a journal entry
-func changeJournal(journalName string, entry string, entrytext string) error {
+// This is used to change a journal entry, It can also be used to write titles
+func changeJournal(journalName string, entry string, text string, title bool) error {
   dat, err := ioutil.ReadFile("./entries/" + journalName + ".json")
   if err != nil {
     fmt.Println("Error reading journal")
@@ -44,14 +45,32 @@ func changeJournal(journalName string, entry string, entrytext string) error {
   }
 
   // Make sure that the array does not access out of range but doesn't create
-  // too many entries
+  // too many entries or titles
+
   length := i + 1
+
+  if title {
+
+    if len(j.Titles) > length {
+      length = len(j.Titles)
+    }
+    titlearr := make([]string, length)
+    copy(titlearr, j.Titles)
+    titlearr[i] = text
+    j.Titles = titlearr
+
+    jsonvalue, _ := json.Marshal(j)
+    ioutil.WriteFile("./entries/" + journalName + ".json", jsonvalue, 0777)
+
+    return nil
+  }
+
   if len(j.Entries) > length {
     length = len(j.Entries)
   }
   entryarr := make([]string, length)
   copy(entryarr, j.Entries)
-  entryarr[i] = entrytext
+  entryarr[i] = text
   j.Entries = entryarr
 
   jsonvalue, _ := json.Marshal(j)
@@ -71,7 +90,7 @@ func newJournal(jorunalName string) error {
   }
 
   var arr []string
-  j := Journal{arr, "normal"}
+  j := Journal{arr, arr, "normal"}
   jsondata, _ := json.Marshal(j)
 
   ioutil.WriteFile("./entries/" + jorunalName + ".json", jsondata, 0777)
@@ -79,8 +98,8 @@ func newJournal(jorunalName string) error {
   return nil
 }
 
-// Read an entry from a journal
-func readJournal(jorunalName string, entryNumber string) (string, error) {
+// Read an entry from a journal (Can also read titles if the title bit is set)
+func readJournal(jorunalName string, entryNumber string, title bool) (string, error) {
   dat, err := ioutil.ReadFile("./entries/" + jorunalName + ".json")
 
   if err != nil {
@@ -107,12 +126,25 @@ func readJournal(jorunalName string, entryNumber string) (string, error) {
   if i > 2499 {
     return "Error reading journal entry", nil
   }
-  if len(j.Entries) - 1 < i {
+
+// Send the user a generic title if the one they requested is blank
+  if len(j.Titles) - 1 < i && title {
+    return "Entry title", nil
+  }
+
+  // Send the user a generic entry if the one they requested is blank
+  if len(j.Entries) - 1 < i && !title {
     if i == 0 {
+      // However, if it's also the first of the journla, read from a file.
+      // (This file _SHOULD_ contain a welcome message)
       dat, _ := ioutil.ReadFile("./public/introtext.txt")
       return string(dat), nil
     }
     return "New planner entry", nil
+  }
+
+  if title {
+    return j.Titles[i], nil
   }
 
   return j.Entries[i], nil
@@ -146,6 +178,7 @@ func setTheme(journalName string, theme string) error {
     return err
   }
 
+  // Unmarshal the JSON
   var j Journal
   err = json.Unmarshal(dat, &j)
 
@@ -157,6 +190,8 @@ func setTheme(journalName string, theme string) error {
 
   jsondata, _ := json.Marshal(j)
 
+  // Errors aren't handled here because we were able to read from the same file.
+  // If some error occurs, the theme won't be set.
   ioutil.WriteFile("./entries/" + journalName + ".json", jsondata, 0777)
 
   return nil

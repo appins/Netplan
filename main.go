@@ -150,7 +150,7 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   }
 
   // The handler when an entry is requested or written too
-  if journal_url == "entry" || journal_url == "entryedit" {
+  if journal_url == "entry" || journal_url == "entryedit" || journal_url == "title" || journal_url == "titleedit" {
     // Add another '/' at the end so that we don't get index errors (as often)
     entNum := strings.Split(r.URL.Path + "/", "/")[4]
     entryNum, err := strconv.Atoi(entNum)
@@ -159,8 +159,15 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       return
     }
 
-    if journal_url == "entry" {
-      str, err := readJournal(path, entNum)
+    if journal_url == "entry" || journal_url == "title" {
+      title := false
+
+      if journal_url == "title" {
+        title = true
+      }
+
+      str, err := readJournal(path, entNum, title)
+
       lastEntryNum[path] = entNum
       if err != nil {
         io.WriteString(w, "Couldn't read journal entry.")
@@ -169,15 +176,28 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       io.WriteString(w, str)
       return
     }
-    if journal_url == "entryedit" {
+
+    if journal_url == "entryedit" || journal_url == "titleedit" {
       str := r.PostFormValue("text")
 
-      if len(str) > 5000 {
+      title := false
+
+
+      if journal_url == "titleedit" {
+        title = true
+      }
+
+      if len(str) > 5000 && !title {
         io.WriteString(w, "Journal entry is too long!")
         return
       }
 
-      changeJournal(path, entNum, str)
+      if len(str) > 50 && title {
+        io.WriteString(w, "Journal entry title is too long!")
+        return
+      }
+
+      changeJournal(path, entNum, str, title)
       return
     }
 

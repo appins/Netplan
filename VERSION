@@ -1,5 +1,11 @@
-0.2-beta (serialized 2)
+0.3-beta (serialized 3)
 ---
 The serialized number should be incremented every time a git commit is made
 (If the commit is important). This file will be compared to check if the
 server is running an up to date version.
+
+Past major updates:
+  - 0.2-beta s 0: Include versioning
+  - 0.3-beta s 3: Change themes a lot and add editable titles
+
+Please message me if the server seems to be behind by a major update!

@@ -1,4 +1,4 @@
-var journalNumber, journalText, num = 0;
+var journalNumber, journalText, num = 0, lastTitle;
 
 window.onload = function() {
   var nextButton = document.getElementById("lastpage");
@@ -20,7 +20,6 @@ function next() {
     return;
   }
   reqNumber++;
-  journalNumber.innerHTML = String(reqNumber);
   loadContent(reqNumber);
 }
 
@@ -29,7 +28,6 @@ function last() {
     return;
   }
   reqNumber--;
-  journalNumber.innerHTML = String(reqNumber);
   loadContent(reqNumber);
 }
 
@@ -40,13 +38,20 @@ function loadContent(num) {
   };
   xhttp.open("GET", "entry/" + String(num), true);
   xhttp.send();
+
+  var xhttp2 = new XMLHttpRequest();
+  xhttp2.onreadystatechange = function() {
+    journalNumber.innerHTML = xhttp2.responseText;
+  };
+  xhttp2.open("GET", "title/" + String(num), true);
+  xhttp2.send();
 }
 
 var lastJournal = "";
 
 function sendContent(){
   setTimeout(function(){
-    if(lastJournal != journalText.innerHTML || num < 5){
+    if(lastJournal != journalText.innerHTML || num < 2){
       if(lastJournal != journalText.innerHTML){
         num = 0;
       }
@@ -56,6 +61,13 @@ function sendContent(){
       xhttp.send("text=" + journalText.innerHTML);
       lastJournal = journalText.innerHTML;
       num++;
+    }
+    if(lastTitle != journalNumber.innerHTML) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", "titleedit/" + String(reqNumber), true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("text=" + journalNumber.innerHTML);
+      lastTitle = journalNumber.innerHTML;
     }
     sendContent();
   }, 500);
