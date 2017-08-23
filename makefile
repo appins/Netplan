@@ -39,3 +39,7 @@ convert-old:
 
 check:
 	sh ./checkversion.sh
+
+updatepush:
+	zip -r public/netplan.zip .
+	make
