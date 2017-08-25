@@ -1,4 +1,4 @@
-var journalNumber, journalText, num = 0, lastTitle;
+var journalNumber, journalText, num = 0, lastTitle, pageNum, byteCount, byteCountNum = 0;
 
 window.onload = function() {
   var nextButton = document.getElementById("lastpage");
@@ -12,7 +12,12 @@ window.onload = function() {
   journalNumber.innerHTML = reqNumber;
   loadContent(reqNumber);
 
+  byteCount = document.getElementById("bytes");
+  pageNum = document.getElementById("pagenum");
+
+  pageNum.innerHTML = reqNumber;
   sendContent();
+  countBytes();
 };
 
 function next() {
@@ -21,6 +26,7 @@ function next() {
   }
   reqNumber++;
   loadContent(reqNumber);
+  pageNum.innerHTML = reqNumber;
 }
 
 function last() {
@@ -29,6 +35,7 @@ function last() {
   }
   reqNumber--;
   loadContent(reqNumber);
+  pageNum.innerHTML = reqNumber;
 }
 
 function loadContent(num) {
@@ -71,4 +78,14 @@ function sendContent(){
     }
     sendContent();
   }, 500);
+}
+
+function countBytes(){
+  setTimeout(function(){
+    if(byteCountNum != journalText.innerHTML.length){
+      byteCount.innerHTML = journalText.innerHTML.length;
+      byteCountNum = byteCount.innerHTML;
+    }
+    countBytes();
+  }, 100);
 }

@@ -14,10 +14,11 @@
 
 .insidevert {
   width: 94vw;
-  height: 92vh;
+  height: 75vh;
   margin-left: 2vw;
   padding-left: 1vw;
   padding-right: 1vw;
+  font-family: 'Roboto Slab', serif;
 }
 
 h2 {
@@ -33,7 +34,7 @@ h2 {
   font-size: 2vh;
   margin-left: 5vw;
   margin-right: 5vw;
-  height: 50vh;
+  height: 45vh;
   font-family: 'Roboto Slab', serif;
 }
 
@@ -79,4 +80,24 @@ small {
 
 p, a {
   font-family: 'Roboto Slab', serif;
+}
+
+.sett-bar {
+  height: 25vh;
+  text-align: left;
+  font-size: 2vh;
+  padding-top: 2vh;
+  clear: both;
+}
+
+.sett-bar p {
+  width: 50vw;
+  display: inline-block;
+  float: left;
+}
+
+.code {
+  width: 50vw;
+  text-align: right;
+  float: left;
 }

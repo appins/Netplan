@@ -9,7 +9,7 @@ log:
 	touch logs/$(TIME).log
 	touch logs/latest.log
 	ln -f logs/$(TIME).log logs/latest.log
-	go run *.go > logs/$(TIME).log&
+	go run *.go 2> logs/$(TIME).log&
 	tail -f logs/latest.log
 
 killit:

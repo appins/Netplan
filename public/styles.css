@@ -12,14 +12,14 @@ body, html {
   height: 50vh;
 }
 
-.darkblue, .darkblue a {
+.darkcolor, .darkcolor a {
   background-color: #191919;
   color: #ECECEC;
 }
 
-.lightblue, .lightblue a {
-  background-color: #ECECEC;
-  color: #191919;
+.lightcolor, .lightcolor a {
+  background-color: #ECECEC `!important`;
+  color: #191919 `!important`;
 }
 
 p, h4, h1 {
