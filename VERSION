@@ -1,4 +1,4 @@
-0.4-beta (serialized 9)
+0.4-beta (serialized 10)
 ---
 The serialized number should be incremented every time a git commit is made
 (If the commit is important). This file will be compared to check if the

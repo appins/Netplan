@@ -1,3 +1,7 @@
+body {
+  background-color: #ECECEC;
+}
+
 .vertbig {
   height: 96vh;
   overflow: hidden;
