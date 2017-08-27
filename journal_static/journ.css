@@ -44,7 +44,6 @@ h2 {
 
 #lastpage {
   bottom: 0;
-  position: absolute;
   left: 0;
   margin-left: 1vw;
   margin-bottom: 2vh;
@@ -54,12 +53,15 @@ h2 {
 
 #nextpage {
   bottom: 0;
-  position: absolute;
   right: 0;
   margin-right: 1vw;
   margin-bottom: 2vh;
   font-size: 20px;
   z-index: 4;
+}
+
+.tar {
+  text-align: right;
 }
 
 .settingslink {
