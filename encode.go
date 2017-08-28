@@ -17,9 +17,8 @@ type Journal struct {
 
 // This is used to change a journal entry, It can also be used to write titles
 func changeJournal(journalName string, entry string, text string, title bool) error {
-  dat, err := ioutil.ReadFile("./entries/" + journalName + ".json")
+  dat, err := getJournalRaw(journalName)
   if err != nil {
-    fmt.Println("Error reading journal")
     return err
   }
 
@@ -60,7 +59,7 @@ func changeJournal(journalName string, entry string, text string, title bool) er
     j.Titles = titlearr
 
     jsonvalue, _ := json.Marshal(j)
-    ioutil.WriteFile("./entries/" + journalName + ".json", jsonvalue, 0777)
+    writeJournalRaw(journalName, jsonvalue)
 
     return nil
   }
@@ -74,7 +73,7 @@ func changeJournal(journalName string, entry string, text string, title bool) er
   j.Entries = entryarr
 
   jsonvalue, _ := json.Marshal(j)
-  ioutil.WriteFile("./entries/" + journalName + ".json", jsonvalue, 0777)
+  writeJournalRaw(journalName, jsonvalue)
 
   return nil
 }
@@ -99,12 +98,12 @@ func newJournal(jorunalName string) error {
 }
 
 // Read an entry from a journal (Can also read titles if the title bit is set)
-func readJournal(jorunalName string, entryNumber string, title bool) (string, error) {
-  dat, err := ioutil.ReadFile("./entries/" + jorunalName + ".json")
+func readJournal(journalName string, entryNumber string, title bool) (string, error) {
+  dat, err := getJournalRaw(journalName)
 
   if err != nil {
     fmt.Println("Couldn't open a journal for reading")
-    return "", err
+    return "Couldn't open journal", err
   }
 
   var j Journal
@@ -112,7 +111,7 @@ func readJournal(jorunalName string, entryNumber string, title bool) (string, er
 
   if err != nil {
     fmt.Println("Couldn't convert JSON")
-    return "", err
+    return "Couldn't convert json", err
   }
 
   i, err := strconv.Atoi(entryNumber)
@@ -120,7 +119,7 @@ func readJournal(jorunalName string, entryNumber string, title bool) (string, er
 
   if err != nil {
     fmt.Println("Entry number was invalid")
-    return "", err
+    return "Entry number invalid", err
   }
 
   if i > 2499 {
@@ -152,7 +151,7 @@ func readJournal(jorunalName string, entryNumber string, title bool) (string, er
 
 // Read a journal's theme really easily
 func readTheme(journalName string) (string, error) {
-  dat, err := ioutil.ReadFile("./entries/" + journalName + ".json")
+  dat, err := getJournalRaw(journalName)
 
   if err != nil {
     fmt.Println("Couldn't read a json file")
@@ -171,7 +170,7 @@ func readTheme(journalName string) (string, error) {
 
 // Set a journal's theme
 func setTheme(journalName string, theme string) error {
-  dat, err := ioutil.ReadFile("./entries/" + journalName + ".json")
+  dat, err := getJournalRaw(journalName)
 
   if err != nil {
     fmt.Println("Couldn't read a json file")

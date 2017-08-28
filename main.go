@@ -17,6 +17,9 @@ var reqCount map[string]int
 // Create a map for storing the last journal entry a user requested
 var lastEntryNum map[string]string
 
+// This map is used for caching journals
+var openJournals map[string][]byte
+
 // Function for checking if file or folder exists
 func pathExists(path string) bool {
   _, err := os.Stat(path)
@@ -32,6 +35,7 @@ func pathExists(path string) bool {
 func main() {
   reqCount = make(map[string]int)
   lastEntryNum = make(map[string]string)
+  openJournals = make(map[string][]byte)
 
   // NOTE: This should be changed to your ip when testing so you don't reach the limit
   reqCount["10.0.0.188"] = -1
@@ -40,6 +44,7 @@ func main() {
   PORT := "80"
 
   fmt.Println("Starting server on port " + PORT)
+  go cacheClearAndWrite()
 
   http.HandleFunc("/", handleRoot)
   http.HandleFunc("/makenew.js", handleNew)
@@ -113,7 +118,7 @@ func handleNew(w http.ResponseWriter, r *http.Request) {
     userid = getRandom()
   }
 
-  lastEntryNum[userid] = "1";
+  lastEntryNum[userid] = "1"
 
   os.MkdirAll("./entries/", 0777)
   newJournal(userid)
