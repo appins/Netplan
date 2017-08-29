@@ -1,8 +1,8 @@
-all:
+all: remove_CN
 	mkdir -p entries
 	go run *.go
 
-log:
+log: remove_CN
 	mkdir -p entries
 	$(eval TIME := $(shell date +"%a%b%d%y%T"))
 	mkdir -p logs
@@ -13,9 +13,16 @@ log:
 	tail -f logs/latest.log
 
 killit:
-	$(shell killall go)
+	touch CLOSE_NETPLAN
+	sh safekill.sh
+	rm -f CLOSE_NETPLAN
+	rm -f KILL_NETPLAN_NOW
 
-reset:
+remove_CN:
+	rm -f CLOSE_NETPLAN
+	rm -f KILL_NETPLAN_NOW
+
+reset: remove_CN
 	rm -rf logs
 	sh ./deleteentries.sh
 
@@ -30,9 +37,6 @@ entfix:
 backup:
 	mkdir -p entries
 	zip -r entries.zip entries
-
-postupdate:
-	unzip entries.zip
 
 convert-old:
 	sh ./converttojson.sh

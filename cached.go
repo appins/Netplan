@@ -4,6 +4,7 @@ import (
   "fmt"
   "time"
   "io/ioutil"
+  "os"
 )
 
 var lock bool
@@ -63,7 +64,7 @@ func cacheClearAndWrite () {
     // This waits 100 seconds, this should be changed to a larger value
     // depending on use. If the period is too long, the memory might fill up
     // and the program might crash. Too short would be inefficent.
-    time.Sleep(100 * time.Second)
+    time.Sleep(10 * time.Second)
     fmt.Println("Writing journals")
     clearLock = true
     for {
@@ -79,6 +80,12 @@ func cacheClearAndWrite () {
     }
 
     fmt.Println("Cleared and wrote journals")
+
+    if pathExists("./CLOSE_NETPLAN") {
+      fmt.Println("Killing Netplan")
+      ioutil.WriteFile("KILL_NETPLAN_NOW", []byte(""), 0777)
+      os.Exit(0)
+    }
     clearLock = false
   }
 }

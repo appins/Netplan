@@ -2,3 +2,5 @@ entries/
 logs/
 *.zip
 CURRENT_VERSION
+KILL_NETPLAN_NOW
+CLOSE_NETPLAN
