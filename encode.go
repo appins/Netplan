@@ -128,6 +128,7 @@ func readJournal(journalName string, entryNumber string, title bool) (string, er
 
 // Send the user a generic title if the one they requested is blank
   if len(j.Titles) - 1 < i && title {
+    changeJournal(journalName, entryNumber, "Entry title", true)
     return "Entry title", nil
   }
 
@@ -137,8 +138,10 @@ func readJournal(journalName string, entryNumber string, title bool) (string, er
       // However, if it's also the first of the journla, read from a file.
       // (This file _SHOULD_ contain a welcome message)
       dat, _ := ioutil.ReadFile("./public/introtext.txt")
+      changeJournal(journalName, entryNumber, string(dat), false)
       return string(dat), nil
     }
+    changeJournal(journalName, entryNumber, "New planner entry", false)
     return "New planner entry", nil
   }
 
