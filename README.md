@@ -3,6 +3,11 @@
 An online, free planner written in Go for school and other activities. Can
 also be used as an online journal or diary.
 
+Notice that this project uses caching, so killing the program at any time could
+result in lost data for all users that recently accessed their journals.
+
+Instead of using `^C` to kill it, use `sudo make killit`
+
 
 To start up the server for testing, go to a terminal and type
 ```bash

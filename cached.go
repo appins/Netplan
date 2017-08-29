@@ -64,7 +64,7 @@ func cacheClearAndWrite () {
     // This waits 100 seconds, this should be changed to a larger value
     // depending on use. If the period is too long, the memory might fill up
     // and the program might crash. Too short would be inefficent.
-    time.Sleep(10 * time.Second)
+    time.Sleep(100 * time.Second)
     fmt.Println("Writing journals")
     clearLock = true
     for {

@@ -191,7 +191,7 @@ func setTheme(journalName string, theme string) error {
 
   // Errors aren't handled here because we were able to read from the same file.
   // If some error occurs, the theme won't be set.
-  ioutil.WriteFile("./entries/" + journalName + ".json", jsondata, 0777)
+  writeJournalRaw(journalName, jsondata)
 
   return nil
 }

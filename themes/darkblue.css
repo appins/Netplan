@@ -2,3 +2,12 @@
   background-color: #283256 !important;
   color: #EBECF0 !important;
 }
+
+body {
+  background-color: #283256 !important;
+}
+
+.darkcolor{
+  color: #283256 !important;
+  background-color: #EBECF0 !important;
+}
