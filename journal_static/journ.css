@@ -38,7 +38,7 @@ h2 {
   font-size: 2.5vh;
   margin-left: 5vw;
   margin-right: 5vw;
-  height: 45vh;
+  height: 40vh;
   font-family: 'Roboto Slab', serif;
 }
 
@@ -115,5 +115,10 @@ button {
   padding: 0;
   border: 0;
   font-size: 4vh;
-  box-shadow: 0;
+  cursor: pointer;
+}
+
+.center {
+  text-align: center;
+  width: 100vw !important;
 }
