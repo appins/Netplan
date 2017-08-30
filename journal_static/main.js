@@ -15,10 +15,26 @@ window.onload = function() {
   byteCount = document.getElementById("bytes");
   pageNum = document.getElementById("pagenum");
 
+  document.getElementById("boldbutton").onclick = bold;
+  document.getElementById("ibutton").onclick = italic;
+  document.getElementById("underbutton").onclick = underline;
+
   pageNum.innerHTML = reqNumber;
   sendContent();
   countBytes();
 };
+
+function bold(){
+  document.execCommand("bold");
+}
+
+function italic(){
+  document.execCommand("italic");
+}
+
+function underline(){
+  document.execCommand("underline");
+}
 
 function next() {
   if(reqNumber >= 10000){
