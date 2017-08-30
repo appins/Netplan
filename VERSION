@@ -1,7 +1,7 @@
-0.5.2-beta (serialized 18)
+0.5.2-beta (serialized 19)
 ---
 The serialized number should be incremented every time a git commit is made
-(If the commit is important). This file will be compared to check if the
+(If the commit affects any server files). This file will be compared to check if the
 server is running an up to date version.
 
 Past number updates:
@@ -10,6 +10,6 @@ Past number updates:
   - 0.4-beta s 6: Started work on a bar and changed "blue" to "color"
   - 0.5-beta s 14: Created a caching system that decreases hard drive usage
   - 0.5.1-beta s 16: Themes are fixed and work again
-  - 0.5.2-beta s 18: Added bold, italic, and underline buttons. 
+  - 0.5.2-beta s 18: Added bold, italic, and underline buttons.
 
 Please message me if the server seems to be behind by a major update!
