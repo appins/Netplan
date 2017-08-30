@@ -128,6 +128,10 @@ func readJournal(journalName string, entryNumber string, title bool) (string, er
 
 // Send the user a generic title if the one they requested is blank
   if len(j.Titles) - 1 < i && title {
+    if i == 0 {
+      changeJournal(journalName, entryNumber, "My Journal", true)
+      return "My Journal", nil
+    }
     changeJournal(journalName, entryNumber, "Entry title", true)
     return "Entry title", nil
   }

@@ -22,6 +22,11 @@ window.onload = function() {
   pageNum.innerHTML = reqNumber;
   sendContent();
   countBytes();
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "title/1", false);
+  xhttp.send();
+  document.getElementById("tabtitle").innerHTML = xhttp.responseText;
 };
 
 function bold(){
@@ -91,6 +96,9 @@ function sendContent(){
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("text=" + journalNumber.innerHTML);
       lastTitle = journalNumber.innerHTML;
+      if (reqNumber == 1){
+        document.getElementById("tabtitle").innerHTML = lastTitle;
+      }
     }
     sendContent();
   }, 500);
