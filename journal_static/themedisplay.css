@@ -1,0 +1,32 @@
+.normaltheme {
+  background-color: #ECECEC;
+  color: #191919;
+}
+
+.darkgrey {
+  background-color: #282828;
+  color: #ebdbb2;
+}
+
+.darkblack {
+  background-color: #191919;
+  color: #ECECEC;
+}
+
+.darkblue {
+  background-color: #283256;
+  color: #EBECF0;
+}
+
+.red {
+  background-color: #8C3330;
+  color: #FAF5F0;
+}
+
+.theme {
+  border-radius: 3px;
+}
+
+p {
+  display: inline-block;
+}

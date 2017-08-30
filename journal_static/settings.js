@@ -17,22 +17,6 @@ window.onload = function(){
   xhttptheme.open("GET", "theme.css", false)
   xhttptheme.send();
   document.getElementById("theme").innerHTML = xhttptheme.responseText;
-
-  if(theme == "normal"){
-    theme_n.checked = true;
-  }
-  else if(theme == "dark"){
-    theme_d.checked = true;
-  }
-  else if(theme == "darkblue"){
-    theme_db.checked = true;
-  }
-  else if(theme == "red"){
-    theme_r.checked = true;
-  }
-  else if(theme == "grey"){
-    theme_g.checked = true;
-  }
 };
 
 // NOTE: Currently only theme is implemented
