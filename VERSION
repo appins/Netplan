@@ -1,4 +1,4 @@
-0.5.2-beta (serialized 21)
+0.5.2-beta (serialized 22)
 ---
 The serialized number should be incremented every time a git commit is made
 (If the commit affects any server files). This file will be compared to check if the
