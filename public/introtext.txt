@@ -9,7 +9,7 @@ whenever.
 <br>
 To flip to the next page, click the next page button down bellow. To change the
 theme, you can click the "settings" button bellow. Use the three T's to make
-highlighted text bold, italic, and underlined respectively.
+highlighted text bold, underlined, and italic respectively.
 <br>
 <br>
 -Alex Anderson
