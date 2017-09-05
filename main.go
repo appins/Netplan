@@ -221,6 +221,15 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
     return
   }
 
+  if journal_url == "journal.json" {
+    dat, err := getJournalRaw(path)
+    if err != nil {
+      io.WriteString(w, "{'error' : 'reading!'}")
+    }
+    io.WriteString(w, string(dat))
+    return
+  }
+
   if journal_url == "theme.js" {
     dat, err := readTheme(path)
 
