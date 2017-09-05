@@ -14,37 +14,37 @@ var clearLock bool
 // This also checks if the journal is already open, so it should be called
 // every time. It returns true if the journal exists
 func openJournal(journal string) error {
-  // Make sure journals aren't being cleared
-  for clearLock {}
-
-  // This keeps this function from interfering with the clearning of journals
-  lock = true
-
   if openJournals[journal] != nil {
-    lock = false
     return nil
   }
 
   dat, err := ioutil.ReadFile("./entries/" + journal + ".json")
   if err != nil {
     fmt.Println("Couldn't open requested journal (openJournal(" + journal + "))")
-    lock = false
     return err
   }
 
   openJournals[journal] = dat
   fmt.Println("Opened a journal")
 
-  lock = false
   return nil
 }
 
 // This is used to return if a journals content exists. It uses caching.
 func getJournalRaw(journal string) ([]byte, error) {
+  // Make sure journals are not being cleared
+  for clearLock {}
+
+  // Lock the array
+  lock = true
+
   err := openJournal(journal)
   if err == nil {
-    return openJournals[journal], nil
+    dat := openJournals[journal]
+    lock = false
+    return dat, nil
   }
+  lock = false
   return []byte(""), err
 }
 
