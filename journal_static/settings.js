@@ -6,12 +6,14 @@ window.onload = function(){
   theme_db = document.getElementById("theme_darkblue");
   theme_r = document.getElementById("theme_red");
   theme_g = document.getElementById("theme_grey");
+  theme_gr = document.getElementById("theme_green");
 
   theme_n.onclick = function(){sendData("normal")};
   theme_d.onclick = function(){sendData("dark")};
   theme_db.onclick = function(){sendData("darkblue")};
   theme_r.onclick = function(){sendData("red")};
   theme_g.onclick = function(){sendData("grey")};
+  theme_gr.onclick = function(){sendData("green")};
 
   var xhttptheme = new XMLHttpRequest();
   xhttptheme.open("GET", "theme.css", false)

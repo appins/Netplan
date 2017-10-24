@@ -27,6 +27,11 @@ body {
   color: #FAF5F0;
 }
 
+.green {
+  background-color: #000000;
+  color: #00FF00;
+}
+
 .theme {
   border-radius: 3px;
   font-size: 5vh;

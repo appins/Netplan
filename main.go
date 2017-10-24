@@ -260,6 +260,8 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       theme = "red"
     case "grey":
       theme = "grey"
+    case "green":
+      theme = "green"
     default:
       theme = "normal"
     }

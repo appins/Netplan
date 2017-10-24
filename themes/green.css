@@ -1,0 +1,13 @@
+.lightcolor {
+  background-color: #000000 !important;
+  color: #00FF00 !important;
+}
+
+body {
+  background-color: #000000 !important;
+}
+
+.darkcolor{
+  color: #00FF00 !important;
+  background-color: #000000 !important;
+}
