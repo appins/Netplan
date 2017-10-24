@@ -260,6 +260,8 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
       theme = "red"
     case "grey":
       theme = "grey"
+    case "green":
+      theme = "green"
     default:
       theme = "normal"
     }
@@ -318,6 +320,4 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   w.Header().Add("Content-Type", contentType)
 
   io.Copy(w, dat)
-		case "green":
-			theme = "green"
 }
