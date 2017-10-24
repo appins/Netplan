@@ -318,4 +318,6 @@ func handleJournal(w http.ResponseWriter, r *http.Request) {
   w.Header().Add("Content-Type", contentType)
 
   io.Copy(w, dat)
+		case "green":
+			theme = "green"
 }
