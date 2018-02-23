@@ -1,4 +1,4 @@
-[![AppIns](https://imgur.com/W5HbyhH.png)](https://github.com/appins)
+[![AppIns](https://i.imgur.com/W5HbyhH.png)](https://github.com/appins)
 # Netplan
 
 An online, free planner written in Go for school and other activities. Can
